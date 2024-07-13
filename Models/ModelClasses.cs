@@ -1,5 +1,6 @@
 ﻿namespace RepoPatternAPI.Models
 {
+    using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -62,5 +63,65 @@
         public Product? Product { get; set; }
     }
 
+    public class ApplicationUser : IdentityUser
+    {
+        // Additional properties can be added here
+    }
+
+    public class ApplicationRole : IdentityRole
+    {
+        //public ICollection<MenuRole> RoleMenus { get; set; }
+    }
+
+    public class RegisterModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class LoginModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class Menu
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MenuId { get; set; }
+        public string Name { get; set; }
+        public string? Url { get; set; }
+        public ICollection<SubMenu>? SubMenus { get; set; }
+        public ICollection<MenuRole>? MenuRoles { get; set; }
+    }
+
+    public class SubMenu
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int SubMenuId { get; set; }
+        public string Name { get; set; }
+        public string? Url { get; set; }
+        public int MenuId { get; set; }
+        public Menu Menu { get; set; }
+        public ICollection<SubMenuRole>? SubMenuRoles { get; set; }
+    }
+
+    public class MenuRole
+    {
+        public int MenuId { get; set; }
+        public Menu Menu { get; set; }
+        public string? RoleId { get; set; }
+        public ApplicationRole? Role { get; set; }
+    }
+
+    public class SubMenuRole
+    {
+        public int SubMenuId { get; set; }
+        public SubMenu SubMenu { get; set; }
+        public string? RoleId { get; set; }
+        public ApplicationRole? Role { get; set; }
+    }
 
 }

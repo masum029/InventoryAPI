@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RepoPatternAPI.Models;
 
@@ -11,9 +12,11 @@ using RepoPatternAPI.Models;
 namespace RepoPatternAPI.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    partial class InventoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240712110326_identity added")]
+    partial class identityadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,41 +255,6 @@ namespace RepoPatternAPI.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("RepoPatternAPI.Models.Menu", b =>
-                {
-                    b.Property<int>("MenuId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuId"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("MenuId");
-
-                    b.ToTable("Menus");
-                });
-
-            modelBuilder.Entity("RepoPatternAPI.Models.MenuRole", b =>
-                {
-                    b.Property<int>("MenuId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("MenuId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("MenuRole");
-                });
-
             modelBuilder.Entity("RepoPatternAPI.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -342,46 +310,6 @@ namespace RepoPatternAPI.Migrations
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("RepoPatternAPI.Models.SubMenu", b =>
-                {
-                    b.Property<int>("SubMenuId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubMenuId"));
-
-                    b.Property<int>("MenuId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SubMenuId");
-
-                    b.HasIndex("MenuId");
-
-                    b.ToTable("SubMenus");
-                });
-
-            modelBuilder.Entity("RepoPatternAPI.Models.SubMenuRole", b =>
-                {
-                    b.Property<int>("SubMenuId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("SubMenuId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("SubMenuRole");
                 });
 
             modelBuilder.Entity("RepoPatternAPI.Models.Warehouse", b =>
@@ -458,25 +386,6 @@ namespace RepoPatternAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RepoPatternAPI.Models.MenuRole", b =>
-                {
-                    b.HasOne("RepoPatternAPI.Models.Menu", "Menu")
-                        .WithMany("MenuRoles")
-                        .HasForeignKey("MenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RepoPatternAPI.Models.ApplicationRole", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Menu");
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("RepoPatternAPI.Models.OrderProduct", b =>
                 {
                     b.HasOne("RepoPatternAPI.Models.Order", "Order")
@@ -511,36 +420,6 @@ namespace RepoPatternAPI.Migrations
                     b.Navigation("Warehouse");
                 });
 
-            modelBuilder.Entity("RepoPatternAPI.Models.SubMenu", b =>
-                {
-                    b.HasOne("RepoPatternAPI.Models.Menu", "Menu")
-                        .WithMany("SubMenus")
-                        .HasForeignKey("MenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Menu");
-                });
-
-            modelBuilder.Entity("RepoPatternAPI.Models.SubMenuRole", b =>
-                {
-                    b.HasOne("RepoPatternAPI.Models.ApplicationRole", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RepoPatternAPI.Models.SubMenu", "SubMenu")
-                        .WithMany("SubMenuRoles")
-                        .HasForeignKey("SubMenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("SubMenu");
-                });
-
             modelBuilder.Entity("RepoPatternAPI.Models.Warehouse", b =>
                 {
                     b.HasOne("RepoPatternAPI.Models.Company", "Company")
@@ -560,13 +439,6 @@ namespace RepoPatternAPI.Migrations
                     b.Navigation("Warehouse");
                 });
 
-            modelBuilder.Entity("RepoPatternAPI.Models.Menu", b =>
-                {
-                    b.Navigation("MenuRoles");
-
-                    b.Navigation("SubMenus");
-                });
-
             modelBuilder.Entity("RepoPatternAPI.Models.Order", b =>
                 {
                     b.Navigation("OrderProducts");
@@ -575,11 +447,6 @@ namespace RepoPatternAPI.Migrations
             modelBuilder.Entity("RepoPatternAPI.Models.Product", b =>
                 {
                     b.Navigation("OrderProducts");
-                });
-
-            modelBuilder.Entity("RepoPatternAPI.Models.SubMenu", b =>
-                {
-                    b.Navigation("SubMenuRoles");
                 });
 
             modelBuilder.Entity("RepoPatternAPI.Models.Warehouse", b =>
