@@ -29,13 +29,13 @@ namespace RepoPatternAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<Menu>> CreateMenu(Menu menu)
         {
             _context.Menus.Add(menu);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetMenus), new { id = menu.MenuId }, menu);
+            return CreatedAtAction(nameof(GetMenus), new { id = menu.Id }, menu);
         }
 
 
