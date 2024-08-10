@@ -57,7 +57,7 @@ namespace RepoPatternAPI.Controllers
             {
                 await _unitOfWork.Warehouses.Add(warehouse);
                 await _unitOfWork.CompleteAsync();
-                return CreatedAtAction(nameof(GetWareHouse), new { id = warehouse.WarehouseId }, warehouse);
+                return CreatedAtAction(nameof(GetWareHouse), new { id = warehouse.WarehouseID }, warehouse);
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace RepoPatternAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompany(int id, Warehouse warehouse)
         {
-            if (id != warehouse.WarehouseId)
+            if (id != warehouse.WarehouseID)
             {
                 return BadRequest();
             }
