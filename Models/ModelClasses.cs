@@ -5,7 +5,6 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
 
-
     #region New Model Inventory
     public class Company
     {
